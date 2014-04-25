@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1398425386 source:/home/shaobozhong/MyCode/paillierSystem/paillier/paillier/paillier.cpp
+	"paillier.h"
+
+1398425110 source:/home/shaobozhong/MyCode/paillierSystem/paillier/paillier/main.cpp
+	<iostream>
+	<gmpxx.h>
+	"paillier.h"
+
+1398425573 /home/shaobozhong/MyCode/paillierSystem/paillier/paillier/paillier.h
+	<string>
+	<iostream>
+	<gmpxx.h>
+	"PaillierCiphertext.h"
+
+1398425509 /home/shaobozhong/MyCode/paillierSystem/paillier/paillier/PaillierCihpertext.h
+	<ostream>
+	<gmpxx.h>
+
+1398425347 source:/home/shaobozhong/MyCode/paillierSystem/paillier/paillier/PaillierCiphertext.cpp
+	"PaillierCihpertext.h"
+
+1398425623 /home/shaobozhong/MyCode/paillierSystem/paillier/paillier/PaillierCiphertext.h
+	<ostream>
+	<gmpxx.h>
+
