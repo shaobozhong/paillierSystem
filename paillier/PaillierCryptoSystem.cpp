@@ -7,8 +7,8 @@ PaillierPlaintext  PaillierCryptoSystem::dec(PaillierCiphertext ct)//dec operati
     PaillierPlaintext res;
     mpz_t tmp;
     mpz_init(tmp);
-//    res=mpz_powm(tmp, ct.get_mpz_class(), lambda, n_squared);
-//    res=mpz_powm(res->m, ct->c, prv->lambda, pub->n_squared);
+    mpz_powm(tmp, ct.get_mpz_class().get_mpz_t(), lambda.get_mpz_t(), n_squared.get_mpz_t());// wait test
+
 //    mpz_powm(res->m, ct->c, prv->lambda, pub->n_squared);
 //    mpz_sub_ui(res->m, res->m, 1);
 //    mpz_div(res->m, res->m, pub->n);
