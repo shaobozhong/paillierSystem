@@ -2,7 +2,6 @@
 
 #include<gmpxx.h>
 
-
 /*
   This is a (semantic rather than strucural) type for ciphertexts.
   These can also be converted to or from byte arrays (for example in
@@ -18,26 +17,31 @@ for set and get data, since mpz_class is surport get and set by std::string ,i w
 So i recommend you use this method to assagin and get value.
 */
 
-
 #ifndef PAILLIERCIHPERTEXT_H_INCLUDED
 #define PAILLIERCIHPERTEXT_H_INCLUDED
 typedef mpz_class PaillierPlaintext;//use the mpz_class to save the plain texts
-
+class PaillierCryptoSystem;
 class PaillierCiphertext//use this class  to save and do some operation of paillier ciphertexts
 {
     friend std::ostream& operator<<(std::ostream &out,const PaillierCiphertext& a);//friend funcfiong to overload <<
-    friend PaillierCiphertext operator *(const PaillierCiphertext &a,const PaillierCiphertext &b);//
-    friend PaillierCiphertext operator ^(const PaillierCiphertext &a,const PaillierPlaintext &b);//
-    private:
-        mpz_class data;//used to save the ciphertexts;
-    public:
+    friend PaillierCiphertext operator *(const PaillierCiphertext &a, const PaillierCiphertext &b);//overload "*" for mul
+private:
+    mpz_class data;//used to save the ciphertexts;
+public:
+    PaillierCiphertext();// default construct
+    PaillierCiphertext(const std::string &); //construct for string
+    PaillierCiphertext(const mpz_class &); //construct for mpz_class
     std::string get_str (int base = 10);
+    mpz_class get_mpz_class() const;
     void set_str (const std::string& str, int base=10);
-    void set_mpz_class(const mpz_class&);
+    void set_mpz_class(const mpz_class &);
+
     //i will implement mul and exp
 };
 
-
+PaillierCiphertext operator *(const PaillierCiphertext &a, const PaillierCiphertext &b);//overload "*" for mul
+//because the exp need the public key ,so move it to class PaillierCryptoSystem
 std::ostream &operator<<(std::ostream &out,const PaillierCiphertext& a);//friend funcfiong to overload <<
+
 
 #endif // PAILLIERCIHPERTEXT_H_INCLUDED

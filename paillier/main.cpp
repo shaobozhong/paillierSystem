@@ -1,13 +1,12 @@
 #include<iostream>
 #include<gmpxx.h>
 
-#include "paillier.h"
+#include "PaillierCryptoSystem.h"
 using namespace std;
 
 int main()
 {
-    PaillierCiphertext pc;
-    pc.set_str("123");
-    cout<<pc<<endl;
+    PaillierCiphertext pc1("123"),pc2("1");
+    cout<<pc1*pc2<<endl;
     return 0;
 }

@@ -50,16 +50,16 @@ private:
     //private key for paillier encryption system
     mpz_class lambda;    /* lambda(n), i.e., lcm(p-1,q-1) */
     mpz_class x;   /* cached to avoid recomputing  in the wikepedia it is miu*/
-
     //i save the p,q for study. generally they will be deleteled for security.they are useless for the rest of calculates.
+
     mpz_class p;
     mpz_class q;
 public:
     void generateKey();
     PaillierCiphertext enc(PaillierPlaintext);
     PaillierPlaintext  dec(PaillierCiphertext);
-
-
+    mpz_class getN_squared() const;
+    PaillierCiphertext exp(const PaillierCiphertext &a,const PaillierPlaintext &b);//exp operation for paillierciphertexts
 };
 
 
