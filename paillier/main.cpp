@@ -6,7 +6,26 @@ using namespace std;
 
 int main()
 {
-    PaillierCryptoSystem pcs(30);
+    //three method to get a PaillierCrytoSystem object to do our work.
+    //first
+    PaillierCryptoSystem pcs(30);//this is set the bits as 30 and generate other key automaticly.
+    //second assgin all key
+
+    //PaillierCryptoSystem(int bits,const mpz_class &n,const mpz_class &n_squared,
+    //const mpz_class &g,const mpz_class &n_plusone,const mpz_class &lambda,const mpz_class &x);
+
+
+    //for simple i surport the string as the parameters as big integers
+    //PaillierCryptoSystem(int bits,const std::string &n,const std::string &n_squared,
+    //const std::string &g,const std::string &n_plusone,const std::string &lambda,const std::string &x);
+    //PaillierCryptoSystem pcs(30);//this is set the bits as 30 and generate other key automaticly.
+
+    //third set p q and call completeKey funtion
+    //PaillierCryptoSystem pcs;
+    //pcs.setP();
+    //pcs.setQ();
+    //pcs.completeKey_u();  //u is represent /dev/urandom,you can see PaillierCrytoSystem.h for detail.
+
 
     PaillierPlaintext m,m1,m2;
     PaillierCiphertext c1,c2,c3;
