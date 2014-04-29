@@ -1,6 +1,6 @@
 project name:	
 	Paillier System
-Dev System:Linux 
+Dev enviroment:cpp in Linux 
 description:
 	This project is divided into few parts.
 	1th:implement the paillier encryption and Related operations

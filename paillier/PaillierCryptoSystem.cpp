@@ -494,4 +494,28 @@ PaillierPlaintext  PaillierCryptoSystem::dec(PaillierCiphertext ct)//dec operati
 }
 
 
+PaillierCiphertext PaillierCryptoSystem::addForPlain(const PaillierCiphertext &a,const PaillierCiphertext &b)
+{
+    return this->mul(a,b);
+}
 
+
+PaillierCiphertext PaillierCryptoSystem::mulForPlain(const PaillierCiphertext &c,const PaillierPlaintext &m)
+{
+    return this->exp(c,m);
+}
+
+
+ PaillierCiphertext PaillierCryptoSystem::subForPlain(const PaillierCiphertext &a,const PaillierCiphertext &b)
+ {
+
+    PaillierPlaintext n_1=n-1;//represent -1
+    PaillierCiphertext tmpB=this->exp(b,n_1);//b=b*-1
+    return this->mul(a,tmpB);
+ }
+
+PaillierPlaintext PaillierCryptoSystem::getActualNumber(const PaillierPlaintext &pt)
+{
+    if (pt>n/2) return pt-n;
+    return pt;
+}

@@ -164,16 +164,49 @@ public:
         the random number r 's seed is generate by /dev/urandom
     */
     PaillierCiphertext enc(PaillierPlaintext);
-
-        /*
+    /*
         this function finish the task that convert the plaintext to ciphertext.
         the random number r 's seed is generate by /dev/random
     */
+
     PaillierCiphertext enc_u(PaillierPlaintext);
     /*
         this function finish the task that convert the ciphertext to plaintext.
     */
     PaillierPlaintext  dec(PaillierCiphertext);
+
+
+    /*
+        folowing functions are hemomorphic operations for plainText
+    */
+
+    /*
+        this function is the hemomorphic propety of Paillier. the mul in cip equal add in plain
+
+    */
+    PaillierCiphertext addForPlain(const PaillierCiphertext &,const PaillierCiphertext &);
+    /*
+        c1*m1 in plain equal c1^m1 in cip.  the m1 can be a negative number represent by n-m1;
+        Paillier is a positive integer system,we got negative operation by this method
+    */
+    PaillierCiphertext mulForPlain(const PaillierCiphertext &,const PaillierPlaintext &);
+    /*
+        this funcfion is based on
+        Zheng peijia's papper Walsh-Hadamard Transform in the Homomorphic Encrypted Domain and Its Application in Image Watermarkin
+        one can divide the n to two part. if it tmp>n it is a negative num. and actual num=n-tmp;
+        so one can get a negative by -num=n-num;  of course it is represent by a positive num;
+        then we can get a sub opretation by num1-num2=num1+num2*(-1)=c1*(c2)^-1.
+
+    */
+    PaillierCiphertext subForPlain(const PaillierCiphertext &,const PaillierCiphertext &);
+
+    /*
+        if you have involed the negative number into this system ,you must to get a actual number.
+        this function is get the actual num from a plaintext.
+    */
+
+    PaillierPlaintext getActualNumber(const PaillierPlaintext &);
+
 
 
 };
