@@ -2,7 +2,8 @@
 #include<ostream>
 
 #include<gmpxx.h>
-#include"PaillierCiphertext.h"
+#include "PaillierCiphertext.h"
+#include "PaillierPlaintext.h"
 
 
 #ifndef PAILLIER_H_INCLUDED
@@ -26,8 +27,14 @@ So i recommend you use this method to assagin and get value.
 */
 
 
-typedef mpz_class PaillierPlaintext;  //use the mpz_class to save plain text
+/*
+    Note:
+        for the random number 's seed there are two method to get,one is /dev/random and another is /dev/urandom
+        the /dev/random is more randomness,but is too slow,my recomands is use the /dev/urandom
+        in our code is the function followed by postfix _u
+*/
 
+typedef unsigned char byte;
 
 /*
     folowing code is the paillier cryptosystem calc, i am folow the algorithm on
@@ -55,14 +62,33 @@ private:
 
     mpz_class p;
     mpz_class q;
+
+    /*
+        these function to init the parameter of gmp's random integer  function
+    */
+    //read form /dev/random or /dev/urandom file
+    void paillier_get_rand_file( byte* buf, int len, const std::string &file );
+    //get a len*bytes randomnum from /dev/random
+    void paillier_get_rand_devrandom( byte* buf, int len );
+    //get a len*bytes randomnum from /dev/urandom
+    void paillier_get_rand_devurandom( byte* buf, int len );
+    //this funtion get the random seed from /dev/urandom
+    void init_rand_u(gmp_randclass &gmpR,int bytes);
+    //this funtion get the random seed from /dev/random
+    void init_rand(gmp_randclass &gmpR,int bytes);
+
+
 public:
     /*
         construtors
         if you assign one value then you must assign all value except for p and q.because p and q are not need by all operation.
 
     */
-    //assign no value and will automatic generate the key
+    //if no paramaters then set all attributes to zero
     PaillierCryptoSystem();
+    //assign only the bits of key n and will automatic generate the key
+    PaillierCryptoSystem(int modulusbits);
+
     //assgign all value except for p and q.
     PaillierCryptoSystem(int bits,const mpz_class &n,const mpz_class &n_squared,
     const mpz_class &g,const mpz_class &n_plusone,const mpz_class &lambda,const mpz_class &x);
@@ -81,6 +107,8 @@ public:
     mpz_class getN_plusone()const ;
     mpz_class getLambda()const;
     mpz_class getX()const;
+    mpz_class getP()const;
+    mpz_class getQ()const;
 
     void setBits(int);
     void setN(const mpz_class &);
@@ -89,6 +117,8 @@ public:
     void setN_plusnoe(const mpz_class &);
     void setLambda(const mpz_class &);
     void setX(const mpz_class &);
+    void setP(const mpz_class &);
+    void setQ(const mpz_class &);
 
     //surport the string as bit integers parameters
     void setN(const std::string &);
@@ -107,14 +137,39 @@ public:
         exp operation for paillierciphertexts.The result has been mod n^2,then is in the Zn^2 ring
     */
     PaillierCiphertext exp(const PaillierCiphertext &a,const PaillierPlaintext &b);
+
+
+    /*
+    this function complete the key after generate the p,q and the generate the g based on /dev/random
+    */
+    void completeKey();
+    /*
+    this function complete the key after generate the p,q and the generate the g based on /dev/urandom
+    */
+    void completeKey_u();
     /*
         this funciton generate the key of Paillier algorithm
     */
-    void generateKey();
+    void generateKey(int modulusbits);
+    void generateKey_u(int modulusbits);
+
+
+    /*
+        this function is designed to check if all key is ok
+    */
+
+    bool checkKey();
     /*
         this function finish the task that convert the plaintext to ciphertext.
+        the random number r 's seed is generate by /dev/urandom
     */
     PaillierCiphertext enc(PaillierPlaintext);
+
+        /*
+        this function finish the task that convert the plaintext to ciphertext.
+        the random number r 's seed is generate by /dev/random
+    */
+    PaillierCiphertext enc_u(PaillierPlaintext);
     /*
         this function finish the task that convert the ciphertext to plaintext.
     */

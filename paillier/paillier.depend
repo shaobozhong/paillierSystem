@@ -24,7 +24,7 @@
 	<ostream>
 	<gmpxx.h>
 
-1398685041 source:/home/shaobozhong/MyCode/paillierSystem/paillier/main.cpp
+1398778709 source:/home/shaobozhong/MyCode/paillierSystem/paillier/main.cpp
 	<iostream>
 	<gmpxx.h>
 	"PaillierCryptoSystem.h"
@@ -32,17 +32,20 @@
 1398685914 source:/home/shaobozhong/MyCode/paillierSystem/paillier/PaillierCiphertext.cpp
 	"PaillierCiphertext.h"
 
-1398684958 source:/home/shaobozhong/MyCode/paillierSystem/paillier/PaillierCryptoSystem.cpp
+1398778293 source:/home/shaobozhong/MyCode/paillierSystem/paillier/PaillierCryptoSystem.cpp
 	"PaillierCryptoSystem.h"
 
-1398685719 /home/shaobozhong/MyCode/paillierSystem/paillier/PaillierCryptoSystem.h
+1398778512 /home/shaobozhong/MyCode/paillierSystem/paillier/PaillierCryptoSystem.h
 	<string>
 	<ostream>
 	<gmpxx.h>
 	"PaillierCiphertext.h"
+	"PaillierPlaintext.h"
 
 1398685907 /home/shaobozhong/MyCode/paillierSystem/paillier/PaillierCiphertext.h
 	<ostream>
 	<string>
 	<gmpxx.h>
+
+1398772991 /home/shaobozhong/MyCode/paillierSystem/paillier/PaillierPlaintext.h
 

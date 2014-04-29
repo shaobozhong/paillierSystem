@@ -1,9 +1,14 @@
 project name:	
 	Paillier System
+Dev System:Linux 
 description:
 	This project is divided into few parts.
 	1th:implement the paillier encryption and Related operations
+	
 license:
 Every can use it without my permission.I won't be responsible to any errors.
-this is work is based on gmp lib,and refered to libpaillier on http://hms.isi.jhu.edu/acsc/libpaillier/#description. I don't know if need you to contact them.
+this is work is based on gmp lib,and refered to 
+libpaillier on http://hms.isi.jhu.edu/acsc/libpaillier/#description.this lib has used the /dev/urandom and /dev/random ,I herit it from the lib too, so the code can only run  on linux or similiar system. 
+I don't know if need you to contact them.
 PS:I will implemented the features in codeblocks ide first.I will add the makefile and releases when i have more free time.
+
