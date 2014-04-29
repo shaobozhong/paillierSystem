@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    PaillierCiphertext pc1("123"),pc2("1");
-    cout<<pc1*pc2<<endl;
+    PaillierCryptoSystem pcs;
+
     return 0;
 }

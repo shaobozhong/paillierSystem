@@ -1,5 +1,5 @@
 #include <ostream>
-
+#include<string>
 #include<gmpxx.h>
 
 /*
@@ -24,7 +24,12 @@ class PaillierCryptoSystem;
 class PaillierCiphertext//use this class  to save and do some operation of paillier ciphertexts
 {
     friend std::ostream& operator<<(std::ostream &out,const PaillierCiphertext& a);//friend funcfiong to overload <<
-    friend PaillierCiphertext operator *(const PaillierCiphertext &a, const PaillierCiphertext &b);//overload "*" for mul
+    /*
+    overload "*" for mul
+    but if you use this sign,you must know the result won't mod n^2
+    and the mul in PaillierCryptoSystem will mod n^2
+    */
+    friend PaillierCiphertext operator *(const PaillierCiphertext &a, const PaillierCiphertext &b);
 private:
     mpz_class data;//used to save the ciphertexts;
 public:

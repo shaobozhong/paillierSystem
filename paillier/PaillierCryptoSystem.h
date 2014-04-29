@@ -39,6 +39,7 @@ typedef mpz_class PaillierPlaintext;  //use the mpz_class to save plain text
 
 class PaillierCryptoSystem
 {
+
 private:
     //public key for paillier encryption system
     int bits;  /* e.g., 1024 */
@@ -55,11 +56,70 @@ private:
     mpz_class p;
     mpz_class q;
 public:
-    void generateKey();
-    PaillierCiphertext enc(PaillierPlaintext);
-    PaillierPlaintext  dec(PaillierCiphertext);
+    /*
+        construtors
+        if you assign one value then you must assign all value except for p and q.because p and q are not need by all operation.
+
+    */
+    //assign no value and will automatic generate the key
+    PaillierCryptoSystem();
+    //assgign all value except for p and q.
+    PaillierCryptoSystem(int bits,const mpz_class &n,const mpz_class &n_squared,
+    const mpz_class &g,const mpz_class &n_plusone,const mpz_class &lambda,const mpz_class &x);
+    //for simple i surport the string as the parameters as big integers
+    PaillierCryptoSystem(int bits,const std::string &n,const std::string &n_squared,
+    const std::string &g,const std::string &n_plusone,const std::string &lambda,const std::string &x);
+
+
+    /*
+        these are getters and setters
+    */
+    int getBits() const;
+    mpz_class getN()const ;
     mpz_class getN_squared() const;
-    PaillierCiphertext exp(const PaillierCiphertext &a,const PaillierPlaintext &b);//exp operation for paillierciphertexts
+    mpz_class getG() const;
+    mpz_class getN_plusone()const ;
+    mpz_class getLambda()const;
+    mpz_class getX()const;
+
+    void setBits(int);
+    void setN(const mpz_class &);
+    void setN_squared(const mpz_class &);
+    void setG(const mpz_class &);
+    void setN_plusnoe(const mpz_class &);
+    void setLambda(const mpz_class &);
+    void setX(const mpz_class &);
+
+    //surport the string as bit integers parameters
+    void setN(const std::string &);
+    void setN_squared(const std::string &);
+    void setG(const std::string &);
+    void setN_plusnoe(const std::string &);
+    void setLambda(const std::string &);
+    void setX(const std::string &);
+
+    /*
+        mul operation for paillierciphertexts.The result has been mod n^2,then is in the Zn^2 ring
+        you must know the difference between this function and the overload sign '*' in Class PaillierCiphertext
+    */
+    PaillierCiphertext mul(const PaillierCiphertext &a,const PaillierCiphertext &b);
+    /*
+        exp operation for paillierciphertexts.The result has been mod n^2,then is in the Zn^2 ring
+    */
+    PaillierCiphertext exp(const PaillierCiphertext &a,const PaillierPlaintext &b);
+    /*
+        this funciton generate the key of Paillier algorithm
+    */
+    void generateKey();
+    /*
+        this function finish the task that convert the plaintext to ciphertext.
+    */
+    PaillierCiphertext enc(PaillierPlaintext);
+    /*
+        this function finish the task that convert the ciphertext to plaintext.
+    */
+    PaillierPlaintext  dec(PaillierCiphertext);
+
 };
 
 
