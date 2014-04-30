@@ -207,7 +207,11 @@ public:
 
     PaillierPlaintext getActualNumber(const PaillierPlaintext &);
 
-
+    /*
+        if you have involed the negative number into this system ,you should set the plainText follow -num=n-num.
+        this function is set a negative num to his repesent in pailliler as a positive number.
+    */
+    PaillierPlaintext setNegativeNumbertoPositiveNumber(const PaillierPlaintext &);
 
 };
 

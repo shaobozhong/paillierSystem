@@ -519,3 +519,10 @@ PaillierPlaintext PaillierCryptoSystem::getActualNumber(const PaillierPlaintext 
     if (pt>n/2) return pt-n;
     return pt;
 }
+
+PaillierPlaintext PaillierCryptoSystem::setNegativeNumbertoPositiveNumber(const PaillierPlaintext &pt)
+{
+    if (pt<0) return n-pt;
+    return pt;
+}
+
