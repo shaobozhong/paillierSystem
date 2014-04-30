@@ -38,6 +38,7 @@
 		<Unit filename="PaillierCiphertext.h" />
 		<Unit filename="PaillierCryptoSystem.cpp" />
 		<Unit filename="PaillierCryptoSystem.h" />
+		<Unit filename="PaillierPlaintext.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
