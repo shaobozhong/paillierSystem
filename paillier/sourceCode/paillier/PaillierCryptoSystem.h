@@ -52,8 +52,7 @@ private:
     int bits;  /* e.g., 1024 */
     mpz_class n;   /* public modulus n = p*q */
     mpz_class n_squared; /* cached to avoid recomputing */
-    mpz_class g;//libpaillier 0.8 used the n_plusone to replace g. I want to test if the random number ok?
-    mpz_class n_plusone; /* cached to avoid recomputing */
+    mpz_class g;//libpaillier 0.8 used the n_plusone to replace g.
 
     //private key for paillier encryption system
     mpz_class lambda;    /* lambda(n), i.e., lcm(p-1,q-1) */
@@ -91,10 +90,10 @@ public:
 
     //assgign all value except for p and q.
     PaillierCryptoSystem(int bits,const mpz_class &n,const mpz_class &n_squared,
-    const mpz_class &g,const mpz_class &n_plusone,const mpz_class &lambda,const mpz_class &x);
+    const mpz_class &g,const mpz_class &lambda,const mpz_class &x);
     //for simple i surport the string as the parameters as big integers
     PaillierCryptoSystem(int bits,const std::string &n,const std::string &n_squared,
-    const std::string &g,const std::string &n_plusone,const std::string &lambda,const std::string &x);
+    const std::string &g,const std::string &lambda,const std::string &x);
 
 
     /*
@@ -104,7 +103,6 @@ public:
     mpz_class getN()const ;
     mpz_class getN_squared() const;
     mpz_class getG() const;
-    mpz_class getN_plusone()const ;
     mpz_class getLambda()const;
     mpz_class getX()const;
     mpz_class getP()const;
@@ -114,7 +112,7 @@ public:
     void setN(const mpz_class &);
     void setN_squared(const mpz_class &);
     void setG(const mpz_class &);
-    void setN_plusnoe(const mpz_class &);
+
     void setLambda(const mpz_class &);
     void setX(const mpz_class &);
     void setP(const mpz_class &);
@@ -124,7 +122,6 @@ public:
     void setN(const std::string &);
     void setN_squared(const std::string &);
     void setG(const std::string &);
-    void setN_plusnoe(const std::string &);
     void setLambda(const std::string &);
     void setX(const std::string &);
 
@@ -159,6 +156,19 @@ public:
     */
 
     bool checkKey();
+
+    /*
+        this function is designed to check if public key is ok
+        public key is the n and g
+    */
+
+    bool checkPubKey();
+
+    /*
+        this function is designed to check if private key is ok
+        public key is the labamda and x
+    */
+    bool checkPriKey();
     /*
         this function finish the task that convert the plaintext to ciphertext.
         the random number r 's seed is generate by /dev/urandom
@@ -207,7 +217,11 @@ public:
 
     PaillierPlaintext getActualNumber(const PaillierPlaintext &);
 
-
+    /*
+        if you have involed the negative number into this system ,you should set the plainText follow -num=n-num.
+        this function is set a negative num to his repesent in pailliler as a positive number.
+    */
+    PaillierPlaintext setNegativeNumbertoPositiveNumber(const PaillierPlaintext &);
 
 };
 

@@ -5,7 +5,6 @@ PaillierCryptoSystem::PaillierCryptoSystem()
     setBits(0);
     setN("0");
     setG("0");
-    setN_plusnoe("0");
     setN_squared("0");
     setLambda("0");
     setX("0");
@@ -19,26 +18,24 @@ PaillierCryptoSystem::PaillierCryptoSystem(int modulusbits)
 
 
 PaillierCryptoSystem::PaillierCryptoSystem(int bits,const mpz_class &n,const mpz_class &n_squared,
-        const mpz_class &g,const mpz_class &n_plusone,const mpz_class &lambda,const mpz_class &x)
+        const mpz_class &g,const mpz_class &lambda,const mpz_class &x)
 {
     setBits(bits);
     setN(n);
     setN_squared(n_squared);
     setG(g);
-    setN_plusnoe(n_plusone);
     setLambda(lambda);
     setX(x);
 }
 
 // for simple i only surport solution whtn the base =10.
 PaillierCryptoSystem::PaillierCryptoSystem(int bits,const std::string &n,const std::string &n_squared,
-        const std::string &g,const std::string &n_plusone,const std::string &lambda,const std::string &x)
+        const std::string &g,const std::string &lambda,const std::string &x)
 {
     setBits(bits);
     setN(n);
     setN_squared(n_squared);
     setG(g);
-    setN_plusnoe(n_plusone);
     setLambda(lambda);
     setX(x);
 }
@@ -73,10 +70,7 @@ mpz_class PaillierCryptoSystem::getG() const
 {
     return g;
 }
-mpz_class PaillierCryptoSystem::getN_plusone()const
-{
-    return n_plusone;
-}
+
 mpz_class PaillierCryptoSystem::getLambda()const
 {
     return lambda;
@@ -114,10 +108,7 @@ void PaillierCryptoSystem::setG(const mpz_class &g)
 {
     this->g=g;
 }
-void PaillierCryptoSystem::setN_plusnoe(const mpz_class &n_plusone)
-{
-    this->n_plusone=n_plusone;
-}
+
 
 void PaillierCryptoSystem::setLambda(const mpz_class &lambda)
 {
@@ -133,6 +124,7 @@ void PaillierCryptoSystem::setX(const mpz_class &x)
 void PaillierCryptoSystem::setN(const std::string &n)
 {
     this->n.set_str(n,10);
+    this->n_squared=this->n*this->n;
 }
 void PaillierCryptoSystem::setN_squared(const std::string &n_squared)
 {
@@ -142,10 +134,7 @@ void PaillierCryptoSystem::setG(const std::string &g)
 {
     this->g.set_str(g,10);
 }
-void PaillierCryptoSystem::setN_plusnoe(const std::string &n_plusone)
-{
-    this->n_plusone.set_str(n_plusone,10);
-}
+
 
 void PaillierCryptoSystem::setLambda(const std::string &lambda)
 {
@@ -228,7 +217,7 @@ void PaillierCryptoSystem::init_rand_u(gmp_randclass &gmpR, int bytes)
 
 PaillierCiphertext PaillierCryptoSystem::mul(const PaillierCiphertext &a,const PaillierCiphertext &b)//overload "*" for mul
 {
-    if(!checkKey())//if key is not well then the key is not ready then return -1 as the result.
+    if(!checkPubKey())//if key is not well then the key is not ready then return -1 as the result.
     {
         return PaillierCiphertext("-1");
     }
@@ -241,7 +230,7 @@ PaillierCiphertext PaillierCryptoSystem::mul(const PaillierCiphertext &a,const P
 
 PaillierCiphertext PaillierCryptoSystem::exp(const PaillierCiphertext &a,const PaillierPlaintext &b)//exp operation for paillierciphertexts ^ plaintext
 {
-    if(!checkKey())//if key is not well then the key is not ready then return -1 as the result.
+    if(!checkPubKey())//if key is not well then the key is not ready then return -1 as the result.
     {
         return PaillierCiphertext("-1");
     }
@@ -258,8 +247,7 @@ void PaillierCryptoSystem::completeKey_u()
 {
     if(p==0 && q==0) return;//if p,q is not ready cannot complete the key
     //pubkey
-    n_plusone=n-1;
-    n_squared=n*n;
+     n_squared=n*n;
     //g
     gmp_randclass gmpR(gmp_randinit_default);
     init_rand_u(gmpR,bits);
@@ -287,7 +275,6 @@ void PaillierCryptoSystem::completeKey()
 {
       if(p==0 && q==0) return;//if p,q is not ready cannot complete the key
         //pubkey
-    n_plusone=n-1;
     n_squared=n*n;
     //g
     gmp_randclass gmpR(gmp_randinit_default);
@@ -303,7 +290,7 @@ void PaillierCryptoSystem::completeKey()
 
     mpz_lcm(tmp, p_1.get_mpz_t(), q_1.get_mpz_t());
     lambda=mpz_class(tmp);
-    mpz_powm(tmp, n_plusone.get_mpz_t(), lambda.get_mpz_t(),n_squared.get_mpz_t());
+    mpz_powm(tmp, g.get_mpz_t(), lambda.get_mpz_t(),n_squared.get_mpz_t());
 	mpz_sub_ui(tmp, tmp, 1);
 	mpz_div(tmp, tmp, n.get_mpz_t());
 	mpz_invert(tmp,tmp,n.get_mpz_t());
@@ -318,7 +305,6 @@ bool PaillierCryptoSystem::checkKey()
     if(bits==0) return false;
     if (n==0) return false;
     if (g==0) return false;
-    if(n_plusone==0) return false;
     if (n_squared==0) return false;
     if(lambda==0) return false;
     if(x==0) return false;
@@ -343,6 +329,20 @@ bool PaillierCryptoSystem::checkKey()
     tmpX=mpz_class(tmp);
 	mpz_clear(tmp);
     if (x!=tmpX) return false;
+    return true;
+}
+
+bool PaillierCryptoSystem::checkPubKey()
+{
+    if (n==0) return false;
+    if (g==0) return false;
+    return true;
+}
+
+bool PaillierCryptoSystem::checkPriKey()
+{
+    if(lambda==0) return false;
+    if(x==0) return false;
     return true;
 }
 
@@ -395,7 +395,7 @@ void PaillierCryptoSystem::generateKey(int modulusbits)
 
 PaillierCiphertext PaillierCryptoSystem::enc_u(PaillierPlaintext pt)
 {
-    if(!checkKey())//if key is not well then the key is not ready then return -1 as the result.
+    if(!checkPubKey())//if key is not well then the key is not ready then return -1 as the result.
     {
         return PaillierCiphertext("-1");
     }
@@ -433,7 +433,7 @@ PaillierCiphertext PaillierCryptoSystem::enc_u(PaillierPlaintext pt)
 
 PaillierCiphertext PaillierCryptoSystem::enc(PaillierPlaintext pt)
 {
-    if(!checkKey())//if key is not well then the key is not ready then return -1 as the result.
+    if(!checkPubKey())//if key is not well then the key is not ready then return -1 as the result.
     {
         return PaillierCiphertext("-1");
     }
@@ -478,7 +478,7 @@ PaillierPlaintext  PaillierCryptoSystem::dec(PaillierCiphertext ct)//dec operati
         mpz_mul(res->m, res->m, prv->x);
         mpz_mod(res->m, res->m, pub->n);
     */
-    if(!checkKey())//if key is not well then the key is not ready then return -1 as the result.
+    if(!checkPriKey() ||!checkPubKey())//if key is not well then the key is not ready then return -1 as the result.
     {
         return PaillierPlaintext("-1");
     }
@@ -519,3 +519,10 @@ PaillierPlaintext PaillierCryptoSystem::getActualNumber(const PaillierPlaintext 
     if (pt>n/2) return pt-n;
     return pt;
 }
+
+PaillierPlaintext PaillierCryptoSystem::setNegativeNumbertoPositiveNumber(const PaillierPlaintext &pt)
+{
+    if (pt<0) return n-pt;
+    return pt;
+}
+

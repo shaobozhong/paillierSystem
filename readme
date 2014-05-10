@@ -4,14 +4,22 @@ Dev enviroment:cpp in Linux
 description:
 	This project is divided into few parts.
 	1th:implement the paillier encryption and Related operations
-	
-license:
-Every can use it without my permission.I won't be responsible to any errors.
-this is work is based on gmp lib,you can used it when you insall this lib.
+  2th:implement a simple application in paillierSystem/simpleApplication/paillierEncServerAndClient/.which implemented the client pass the username and the data need enc then server enc and pass to client.
+
+  in addtion: I have writen a python client to comunicate with the enc server. the code is in paillierEncServerAndClient/pythonClient/
+
+requirments:
+  1th part:
+  all works are based on gmp lib,you can used it when you insall this lib.
 remmeber to insall a gmp lib surport the c++.  
 use configure command as following :./configure --enable-cxx  
-
-and my paillier code refered to(of course i rewrite all the code,and my code is in cpp based on gmpxx instead of gmp) more important i have do some improve. 
+  2th part:
+  you need to modify the iP then you can use this code in you linux machine.if all are ready then you can run the makefile then you will get server  and client in paillierSystem/simpleApplication/paillierEncServerAndClient/bin
+  3th part:
+  you need a pub_key.txt.//the location you can see in the server.cpp
+	license:
+Every can use it without my permission.I won't be responsible to any errors.
+this work based on gmp lib and my paillier code refered to(of course i rewrite all the code,and my code is in cpp based on gmpxx instead of gmp) more important i have do some improve. 
 libpaillier on http://hms.isi.jhu.edu/acsc/libpaillier/#description.this lib has used the /dev/urandom and /dev/random ,I herit it from the lib too, so the code can only run  on linux or similiar system. 
 of course i rewrite all the code,and my code is in cpp based on gmpxx instead of gmp) more important i have do some improve.
 1、i modify some errors in original code(generate the r).

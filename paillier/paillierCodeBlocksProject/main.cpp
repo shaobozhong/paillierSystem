@@ -1,15 +1,63 @@
 #include<iostream>
 #include<gmpxx.h>
-
+#include<string>
+#include<fstream>
+#include<sstream>
 #include "PaillierCryptoSystem.h"
 using namespace std;
+
+
+int getPubKey(const string &name,PaillierCryptoSystem &pcs)
+{
+  ifstream fin("/home/shaobozhong/pub_key.txt");
+  string str;
+  while(getline(fin,str))
+  {
+    string keyName,n,g;
+    istringstream stream(str);
+    stream>>keyName>>n>>g;
+    if (keyName==name)
+    {
+      //cout<<n<<g<<endl;
+      pcs.setN(n);
+      pcs.setG(g);
+      fin.close();
+      return 0;
+    }
+  }
+  fin.close();
+  return 1;
+}
+
+
+int getPriKey(const string &name,PaillierCryptoSystem &pcs)
+{
+  ifstream fin("/home/shaobozhong/pri_key.txt");
+  string str;
+  while(getline(fin,str))
+  {
+    string keyName,l,x;
+    istringstream stream(str);
+    stream>>keyName>>l>>x;
+    if (keyName==name)
+    {
+      //cout<<n<<g<<endl;
+      pcs.setLambda(l);
+      pcs.setX(x);
+      fin.close();
+      return 0;
+    }
+  }
+  fin.close();
+  return 1;
+}
 
 int main()
 {
     //three method to get a PaillierCrytoSystem object to do our work.
     //first
-    PaillierCryptoSystem pcs(30);//this is set the bits as 30 and generate other key automaticly.
-    //second assgin all key
+    //PaillierCryptoSystem pcs(30);//this is set the bits as 30 and generate other key automaticly.
+
 
     //PaillierCryptoSystem(int bits,const mpz_class &n,const mpz_class &n_squared,
     //const mpz_class &g,const mpz_class &n_plusone,const mpz_class &lambda,const mpz_class &x);
@@ -26,9 +74,13 @@ int main()
     //pcs.setQ();
     //pcs.completeKey_u();  //u is represent /dev/urandom,you can see PaillierCrytoSystem.h for detail.
 
-
+    PaillierCryptoSystem pcs;
+    getPriKey("shaobozhong",pcs);
+    getPubKey("shaobozhong",pcs);
     PaillierPlaintext m,m1,m2;
     PaillierCiphertext c1,c2,c3;
+    PaillierCiphertext cc("474415577439497500");
+    cout<<pcs.dec(cc)<<endl;
     m1=99;m2=101;
     c1=pcs.enc_u(m1);
     c2=pcs.enc_u(m2);

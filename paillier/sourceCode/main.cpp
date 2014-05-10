@@ -1,6 +1,7 @@
 #include<iostream>
 #include<gmpxx.h>
-
+#include<string>
+#include<fstream>
 #include "PaillierCryptoSystem.h"
 using namespace std;
 
@@ -9,6 +10,24 @@ int main()
     //three method to get a PaillierCrytoSystem object to do our work.
     //first
     PaillierCryptoSystem pcs(30);//this is set the bits as 30 and generate other key automaticly.
+    ofstream fout("/home/shaobozhong/pub_key.txt");
+    if (!fout)
+    {
+        puts("open failed!");
+        return 1;
+    }
+    puts("ok");
+        fout<<"shaobozhong"<<"\t";
+        fout<<pcs.getN()<<"\t";
+        fout<<pcs.getG()<<endl;
+    fout.clear();
+    fout.close();
+
+    fout.open("/home/shaobozhong/pri_key.txt");
+     fout<<"shaobozhong"<<"\t";
+        fout<<pcs.getLambda()<<"\t";
+        fout<<pcs.getX()<<endl;
+    fout.close();
     //second assgin all key
 
     //PaillierCryptoSystem(int bits,const mpz_class &n,const mpz_class &n_squared,
@@ -25,7 +44,6 @@ int main()
     //pcs.setP();
     //pcs.setQ();
     //pcs.completeKey_u();  //u is represent /dev/urandom,you can see PaillierCrytoSystem.h for detail.
-
 
     PaillierPlaintext m,m1,m2;
     PaillierCiphertext c1,c2,c3;
