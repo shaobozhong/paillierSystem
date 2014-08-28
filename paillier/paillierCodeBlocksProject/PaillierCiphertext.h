@@ -47,6 +47,4 @@ public:
 PaillierCiphertext operator *(const PaillierCiphertext &a, const PaillierCiphertext &b);//overload "*" for mul
 //because the exp need the public key ,so move it to class PaillierCryptoSystem
 std::ostream &operator<<(std::ostream &out,const PaillierCiphertext& a);//friend funcfiong to overload <<
-
-
 #endif // PAILLIERCIHPERTEXT_H_INCLUDED
