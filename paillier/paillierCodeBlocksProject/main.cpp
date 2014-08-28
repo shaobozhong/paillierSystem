@@ -9,7 +9,7 @@ using namespace std;
 
 int getPubKey(const string &name,PaillierCryptoSystem &pcs)
 {
-  ifstream fin("/home/shaobozhong/pub_key.txt");
+  ifstream fin("../../key/pub_key.txt");
   string str;
   while(getline(fin,str))
   {
@@ -32,7 +32,7 @@ int getPubKey(const string &name,PaillierCryptoSystem &pcs)
 
 int getPriKey(const string &name,PaillierCryptoSystem &pcs)
 {
-  ifstream fin("/home/shaobozhong/pri_key.txt");
+  ifstream fin("../../key/pri_key.txt");
   string str;
   while(getline(fin,str))
   {
